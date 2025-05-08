@@ -49,13 +49,13 @@ enum cube_material {
 };
 
 float focal_length = 120;
-int resolution = 20; 
-int cube_size = 100;
+int resolution = 45; 
+int cube_size = 1000;
 std::vector<surface_3d> surfaces;
 vector3 camera_position(
     0,
     0,
-    -1200
+    -5000
 );
 
 vector3 rotate_x(vector3 v, float rotation) {
@@ -108,7 +108,7 @@ void draw_surface(surface_3d surface, int screen_width, int screen_height) {
             attron(COLOR_PAIR(surface.color_id));
             mvaddstr(
                 vertex.y * focal_length / (vertex.z - camera_position.z) + screen_height / 2,
-                ((vertex.x * focal_length / (vertex.z - camera_position.z))) * 2 + screen_width / 2,
+                (vertex.x * focal_length / (vertex.z - camera_position.z)) * 2 + screen_width / 2,
                 surface.texture.c_str()
             );
         }
@@ -160,13 +160,13 @@ int main(int argc, char ** argv) {
         for (int i = 0; i < 4; i++) {
             std::string texture = "";
             if (i == 0) 
-                texture = "##";
-            else if (i == 1)
                 texture = "@@";
+            else if (i == 1)
+                texture = "##";
             else if (i == 2)
                 texture = "&&";
             else if (i == 3) {
-                texture = "$$";
+                texture = "++";
             }
 
             surfaces.push_back(surface_3d(
@@ -175,7 +175,7 @@ int main(int argc, char ** argv) {
                 vector3(elapsed_time * M_PI / 45, elapsed_time * M_PI / 180, 0),
                 vector3(0, i * 90 * M_PI / 180, 0),
                 texture,
-                i + 1
+                i+1
             ));
         }
 
@@ -193,13 +193,13 @@ int main(int argc, char ** argv) {
             vector3(0, 0, -cube_size / 2),
             vector3(elapsed_time * M_PI / 45, elapsed_time * M_PI / 180, 0),
             vector3(-90 * M_PI / 180, 0, 0),
-            "BB",
+            "%%",
             6
         ));
 
         draw_all_surfaces(width, height);
-        refresh();
         usleep(10000);
+        refresh();
         elapsed_time++;
     }
 
